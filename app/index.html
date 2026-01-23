@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Phone Inventory</title>
+    <style>
+        * {
+            font-family: Roboto, "Ubuntu Sans", Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 5px;
+            text-align: left;
+        }
+
+        a:visited {
+            color: blue;
+        }
+        
+        .numeric {
+            text-align: right;
+        }
+    </style>
+    <script>
+        // Updated to search by Model name
+        function getSearch() {
+            const searchTerm = document.querySelector("#search").value.toLowerCase();
+            console.log(searchTerm)
+            
+            if (searchTerm.length > 1) {
+                // Changed endpoint to /api/phones/search
+                fetch("/api/phones/search", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    // Sending 'model' instead of 'title'
+                    body: JSON.stringify({ model: searchTerm }),
+                })
+                    .then((response) => response.json())
+                    .then((phones) => {
+                        console.log(phones);
+                        renderTable(phones);
+                    });
+            } else if (searchTerm.length === 0) {
+                fetchPhones();
+            }
+        }
+
+        function handleSave() {
+            updated_phone = {
+                phoneid: document.querySelector("#phoneid").value,
+                brand: document.querySelector("#brand").value,
+                model: document.querySelector("#model").value,
+                storage: document.querySelector("#storage").value,
+                price: document.querySelector("#price").value,
+                status: document.querySelector("#status").value,
+            };
+
+            fetch('/api/phones/save', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updated_phone),
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log('Success:', data);
+                    document.querySelector("#edit").style.display = "none";
+                    fetchPhones();
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        }
+
+        function handleClick(phoneId) {
+            fetch(`/api/phones/${phoneId}`)
+                .then((response) => response.json())
+                .then((data) => {
+                    document.querySelector("#edit").style.display = "block";
+                    
+                    // Updated Edit Form Fields
+                    let html = `
+                    <tr>
+                        <th>ID</th>
+                        <td>
+                            ${data.phoneid}
+                            <input type="hidden" id="phoneid" value="${data.phoneid}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Brand</th>
+                        <td><input type="text" id="brand" value="${data.brand}"/></td>
+                    </tr>
+                    <tr>
+                        <th>Model</th>
+                        <td><input type="text" id="model" style="width: 100%;" value="${data.model}"/></td>
+                    </tr>
+                    <tr>
+                        <th>Storage</th>
+                        <td><input type="text" id="storage" value="${data.storage}"/></td>
+                    </tr>
+                    <tr>
+                        <th>Price ($)</th>
+                        <td><input type="number" id="price" value="${data.price}"/></td>
+                    </tr>
+                    <tr>
+                        <th>Status</th>
+                        <td>
+                            <select id="status">
+                                <option value="Available" ${data.status === 'Available' ? 'selected' : ''}>Available</option>
+                                <option value="Sold" ${data.status === 'Sold' ? 'selected' : ''}>Sold</option>
+                                <option value="Restocking" ${data.status === 'Restocking' ? 'selected' : ''}>Restocking</option>
+                                <option value="Repairing" ${data.status === 'Repairing' ? 'selected' : ''}>Repairing</option>
+                            </select>
+                        </td>
+                    </tr>                    
+                    <tr>
+                        <td colspan="2" style="text-align: center;">
+                            <button type="submit" onclick="handleSave()">Save Changes</button>
+                        </td>
+                    </tr>`;
+                    document.querySelector("#edit tbody").innerHTML = html;
+                });
+        }
+
+        // Helper function to render table rows
+        function renderTable(phones) {
+            let html = ``;
+            phones.forEach((phone) => {
+                html += `<tr>
+                    <td>${phone.phoneid}</td>
+                    <td>${phone.brand}</td>
+                    <td><a href="#!" onclick="handleClick(${phone.phoneid})">${phone.model}</a></td>
+                    <td>${phone.storage}</td>
+                    <td class="numeric">$${phone.price}</td>
+                    <td>${phone.status}</td>
+                </tr>`;
+            });
+            document.querySelector("#main-tbody").innerHTML = html;
+        }
+
+        function fetchPhones() {
+            fetch("/api/phones")
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                    renderTable(data);
+                });
+        }
+        
+        // Initial load
+        fetchPhones();
+    </script>
+</head>
+
+<body>
+    <div style="padding: 20px;">
+        <h1>Phone Inventory Manager</h1>
+        <input type="text" name="search" id="search" placeholder="Search by model..." oninput="getSearch()" style="padding: 5px; margin-bottom: 10px; width: 300px;" />
+        
+        <div style="display: flex; gap: 20px;">
+            <div>
+                <table>
+                    <thead>
+                        <tr style="background-color: #f2f2f2;">
+                            <th>ID</th>
+                            <th>Brand</th>
+                            <th style="width: 250px;">Model</th>
+                            <th>Storage</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="main-tbody"></tbody>
+                </table>
+            </div>
+
+            <div id="edit" style="display: none;">
+                <div style="border: 1px solid #ccc; padding: 15px; background: #f9f9f9;">
+                    <h2 style="margin-top: 0;">Edit Phone</h2>
+                    <table id="edit-table">
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
