@@ -1,259 +1,321 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Phone Inventory</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        * {
-            font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
-        }
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        .animate-gradient {
-            background-size: 200% 200%;
-            animation: gradient 15s ease infinite;
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-        .float-animation {
-            animation: float 6s ease-in-out infinite;
-        }
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
-            50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.5); }
-        }
-        .pulse-glow {
-            animation: pulse-glow 2s ease-in-out infinite;
-        }
-    </style>
-</head>
-<body class="bg-gradient-to-br from-gray-900 via-slate-900 to-gray-800 min-h-screen">
-    <div class="container mx-auto px-4 py-8">
-        {# Header Section #}
-        <div class="mb-8 bg-gradient-to-r from-slate-800/80 via-gray-800/80 to-slate-800/80 backdrop-blur-xl rounded-3xl p-8 shadow-2xl border-2 border-blue-500/30 pulse-glow">
-            <div class="flex items-center justify-center mb-4">
-                <span class="text-6xl float-animation">📱</span>
-            </div>
-            <h1 class="text-5xl font-black text-center bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 text-transparent bg-clip-text mb-3 drop-shadow-2xl animate-gradient">
-                Phone Inventory Manager
-            </h1>
-            <p class="text-center text-blue-300 text-lg mb-6 font-semibold">⚡ Manage your inventory with power & precision ⚡</p>
-            <div class="max-w-2xl mx-auto">
-                <div class="relative flex gap-3">
-                    <div class="relative flex-1">
-                        <span class="absolute left-5 top-1/2 transform -translate-y-1/2 text-2xl">🔍</span>
-                        <input type="text" id="search" placeholder="Search by model or brand..." class="w-full pl-16 pr-6 py-4 bg-slate-700/90 backdrop-blur-sm border-2 border-blue-500/50 rounded-2xl shadow-2xl focus:outline-none focus:ring-4 focus:ring-blue-500 focus:border-blue-400 transition-all duration-300 placeholder-gray-400 text-lg font-semibold text-white" />
-                    </div>
-                    <button onclick="getSearch()" class="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 font-black shadow-2xl transform hover:scale-105 text-lg">
-                        Search
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="flex gap-8 items-start">
-            {# Main Inventory Grid #}
-            <div class="flex-1">
-                <h2 class="text-3xl font-black text-white mb-6 drop-shadow-lg flex items-center justify-center">
-                    <span class="bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 text-transparent bg-clip-text">
-                        ⚡ Phone Inventory ⚡
-                    </span>
-                </h2>
-                <div id="main-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="col-span-full text-center text-white py-8">Loading...</div>
-                </div>
-            </div>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Phone Directory</title>
 
-            {# Edit Panel #}
-            <div id="edit" class="hidden w-96 bg-gradient-to-br from-slate-800 via-gray-800 to-slate-800 rounded-3xl shadow-2xl p-6 sticky top-8 border-2 border-blue-500/40">
-                <h2 class="text-3xl font-black bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 text-transparent bg-clip-text mb-6 text-center">✏️ Edit Details</h2>
-                <div id="edit-content"></div>
-            </div>
+   <script src="https://cdn.tailwindcss.com"></script>
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    .name-font { font-family: "Poppins", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-100 antialiased">
+  <main class="max-w-6xl mx-auto p-6 min-h-screen flex flex-col">
+ 
+    <header class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+      <div>
+        <h1 class="text-3xl font-extrabold tracking-tight">Phone Directory</h1>
+      </div>
+
+      <div class="flex items-center gap-3 w-full sm:w-auto">
+        <input id="search" type="search" placeholder="Search by brand, model, price or ID"
+               class="flex-1 sm:flex-none w-full sm:w-80 px-3 py-2 rounded-lg border border-slate-700 bg-slate-800 text-slate-100 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500" />
+      </div>
+    </header>
+
+ 
+    <section class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+      <div class="bg-gradient-to-r from-slate-800 to-slate-700 rounded-xl p-4 shadow-md flex items-center gap-4 border border-slate-700">
+        <div class="text-3xl"></div>
+        <div>
+          <div class="text-xs text-slate-300">Total Phones</div>
+          <div id="totalCount" class="text-2xl font-semibold">0</div>
         </div>
-    </div>
+      </div>
+
+      <div class="bg-gradient-to-r from-slate-800 to-slate-700 rounded-xl p-4 shadow-md flex items-center gap-4 border border-slate-700">
+        <div class="text-3xl"></div>
+        <div>
+          <div class="text-xs text-slate-300">Unique Brands</div>
+          <div id="brandCount" class="text-2xl font-semibold">0</div>
+        </div>
+      </div>
+
+      <div class="bg-gradient-to-r from-slate-800 to-slate-700 rounded-xl p-4 shadow-md flex items-center gap-4 border border-slate-700">
+        <div class="text-3xl"></div>
+        <div>
+          <div class="text-xs text-slate-300">Average Market Price</div>
+          <div id="avgPrice" class="text-2xl font-semibold">Rs0</div>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="formSection" class="hidden bg-slate-800 rounded-xl shadow-md p-5 mb-6 border border-slate-700">
+      <h2 id="formTitle" class="text-lg font-medium mb-3">Edit Phone</h2>
+      <form id="phoneForm" class="grid grid-cols-1 sm:grid-cols-3 gap-4" autocomplete="off">
+        <input type="hidden" id="phoneid" name="phoneid" />
+
+        <div class="sm:col-span-1">
+          <label for="brand" class="block text-sm text-slate-300 mb-1">Brand</label>
+          <input id="brand" name="brand" required
+                 class="w-full px-3 py-2 rounded-md border border-slate-700 bg-slate-900 text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-400" />
+        </div>
+
+        <div class="sm:col-span-1">
+          <label for="model" class="block text-sm text-slate-300 mb-1">Model</label>
+          <input id="model" name="model" required
+                 class="w-full px-3 py-2 rounded-md border border-slate-700 bg-slate-900 text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-400" />
+        </div>
+
+        <div class="sm:col-span-1">
+          <label for="price" class="block text-sm text-slate-300 mb-1">Market Price (Rs)</label>
+          <input id="price" name="price" type="number" min="0" step="1" required
+                 class="w-full px-3 py-2 rounded-md border border-slate-700 bg-slate-900 text-slate-100 focus:outline-none focus:ring-2 focus:ring-amber-400" />
+        </div>
+
+        <div class="sm:col-span-3 flex justify-end gap-3 mt-2">
+          <button type="button" id="cancelBtn" class="px-3 py-2 rounded-md border border-slate-700 bg-slate-800 text-slate-200 text-sm">Cancel</button>
+          <button type="submit" class="px-4 py-2 rounded-md bg-gradient-to-r from-sky-600 to-indigo-600 text-white text-sm font-medium hover:from-sky-700 hover:to-indigo-700">Save</button>
+        </div>
+      </form>
+    </section>
+
+
+    <section class="bg-slate-800 rounded-xl shadow-md p-4 border border-slate-700 flex-1">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-sm font-medium text-slate-200">Phone List</h3>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table id="phonesTable" class="min-w-full text-sm">
+          <thead class="bg-slate-800">
+            <tr>
+              <th class="text-left px-4 py-3 text-slate-300">ID</th>
+              <th class="text-left px-4 py-3 text-slate-300">Brand</th>
+              <th class="text-left px-4 py-3 text-slate-300">Model</th>
+              <th class="text-left px-4 py-3 text-slate-300">Price</th>
+              <th class="text-left px-4 py-3 text-slate-300">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="phonesBody" class="divide-y divide-slate-700 bg-slate-900">
+           </tbody>
+        </table>
+      </div>
+
+      <p id="emptyMsg" class="hidden text-center text-slate-400 py-6">No phones found.</p>
+    </section>
+
+     <footer class="mt-6 text-slate-300">
+      <div class="border-t border-slate-700 pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+         <div class="sm:w-1/2">
+          <div class="text-sm text-slate-400">This project made by</div>
+          <div class="mt-3 space-y-1">
+            <div class="name-font text-lg text-slate-100">Bisma Sulhary</div>
+            <div class="name-font text-lg text-slate-100">Kamran Hussain</div>
+          </div>
+        </div>
+
+        <div class="sm:w-1/2 text-sm">
+          <div class="text-slate-400">Contact & links</div>
+          <div class="mt-3 space-y-2">
+            <div> <a href="https://mail.google.com/mail/?view=cm&fs=1&to=bismahsulhary@gmail.com"
+                    target="_blank" rel="noopener noreferrer"
+                    class="text-sky-300 hover:underline">bismahsulhary@gmail.com</a></div>      
+            <div> <a href="https://mail.google.com/mail/?view=cm&fs=1&to=sharkamran111@gmail.com"
+                    target="_blank" rel="noopener noreferrer"
+                    class="text-sky-300 hover:underline">sharkamran111@gmail.com</a></div>                 
+            <div>Project repository</div>
+            <div class="text-slate-400 text-xs mt-2">Need help or want to contribute? Reach out via email or open an issue on the repo.</div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </main>
 
     <script>
-        // Phone Data from JSON
-        let phones = [
-            { phoneid: 1, brand: "Apple", model: "iPhone 15 Pro Max", storage: "256GB", price: 3000.0, status: "Restocking" },
-            { phoneid: 2, status: "Sold", brand: "Samsung", model: "Galaxy S24 Ultra", storage: "512GB", price: 1299 },
-            { phoneid: 3, status: "Available", brand: "Google", model: "Pixel 8 Pro", storage: "128GB", price: 999 },
-            { phoneid: 4, status: "Available", brand: "OnePlus", model: "OnePlus 12", storage: "256GB", price: 799 },
-            { phoneid: 5, status: "Repairing", brand: "Apple", model: "iPhone 14", storage: "128GB", price: 699 },
-            { phoneid: 6, status: "Available", brand: "Samsung", model: "Galaxy Z Flip 5", storage: "256GB", price: 999 },
-            { phoneid: 7, brand: "Xiaomi", model: "Xiaomi 13 Pro", storage: "512GB", price: 1099.0, status: "Available" },
-            { phoneid: 8, status: "Sold", brand: "Apple", model: "iPhone 13 Mini", storage: "128GB", price: 599 },
-            { phoneid: 9, status: "Available", brand: "Sony", model: "Xperia 1 V", storage: "256GB", price: 1199 },
-            { phoneid: 10, status: "Available", brand: "Google", model: "Pixel 7a", storage: "128GB", price: 499 },
-            { phoneid: 11, status: "Restocking", brand: "Samsung", model: "Galaxy A54", storage: "128GB", price: 449 },
-            { phoneid: 12, brand: "Nothing", model: "Nothing Phone 2", storage: "256GB", price: 699.0, status: "Available" },
-            { phoneid: 13, status: "Available", brand: "Asus", model: "ROG Phone 8", storage: "512GB", price: 1099 },
-            { phoneid: 14, status: "Sold", brand: "Apple", model: "iPhone SE (3rd Gen)", storage: "64GB", price: 429 },
-            { phoneid: 15, brand: "Motorola", model: "Motorola Razr Plus", storage: "256GB", price: 999.0, status: "Available" }
-        ];
+    (function () {
+      const phonesBody = document.getElementById('phonesBody');
+      const phonesTable = document.getElementById('phonesTable');
+      const emptyMsg = document.getElementById('emptyMsg');
+      const searchInput = document.getElementById('search');
+      const formSection = document.getElementById('formSection');
+      const phoneForm = document.getElementById('phoneForm');
+      const cancelBtn = document.getElementById('cancelBtn');
+      const formTitle = document.getElementById('formTitle');
+      const totalCountEl = document.getElementById('totalCount');
+      const brandCountEl = document.getElementById('brandCount');
+      const avgPriceEl = document.getElementById('avgPrice');
 
-        const STATUS_COLORS = {
-            'Available': 'bg-gradient-to-r from-emerald-600 to-green-600 text-white shadow-xl',
-            'Sold': 'bg-gradient-to-r from-red-600 to-rose-600 text-white shadow-xl',
-            'Repairing': 'bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-xl',
-            'Restocking': 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-xl'
+      let phones = [];
+      let currentEditingPhone = null;
+
+        async function loadPhones() {
+        try {
+          const res = await fetch('/api/phones');
+          phones = await res.json();
+          console.log('Loaded phones:', phones);
+        } catch (err) {
+          console.error('Failed to load phones', err);
+          phones = [];
+        }
+        renderList(phones);
+        updateSummaries(phones);
+      }
+
+        function renderList(list) {
+        phonesBody.innerHTML = '';
+        if (!list || list.length === 0) {
+          phonesTable.classList.add('hidden');
+          emptyMsg.classList.remove('hidden');
+          return;
+        }
+        phonesTable.classList.remove('hidden');
+        emptyMsg.classList.add('hidden');
+
+        list.forEach(p => {
+          const tr = document.createElement('tr');
+          tr.className = 'hover:bg-slate-800';
+
+            const idTd = document.createElement('td');
+          idTd.className = 'px-4 py-3 text-slate-200';
+          idTd.textContent = String(p.phoneid || '');
+          tr.appendChild(idTd);
+
+  
+          const brandTd = document.createElement('td');
+          brandTd.className = 'px-4 py-3';
+          brandTd.innerHTML = `<span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold" style="background: ${brandColor(p.brand)}; color: white;">${escapeHtml(p.brand || 'Unknown')}</span>`;
+          tr.appendChild(brandTd);
+
+          const modelTd = document.createElement('td');
+          modelTd.className = 'px-4 py-3 text-slate-200';
+          modelTd.textContent = p.model || '';
+          tr.appendChild(modelTd);
+
+  
+          const priceTd = document.createElement('td');
+          priceTd.className = 'px-4 py-3';
+          const priceVal = Number(p.price) || 0;
+          const priceColor = priceVal >= 50000 ? 'text-rose-400' : priceVal >= 20000 ? 'text-amber-400' : 'text-emerald-400';
+          priceTd.innerHTML = `<span class="text-sm font-semibold ${priceColor}">Rs${priceVal.toLocaleString()}</span>`;
+          tr.appendChild(priceTd);
+
+  
+          const actionsTd = document.createElement('td');
+          actionsTd.className = 'px-4 py-3';
+
+          const editBtn = document.createElement('button');
+          editBtn.className = 'px-3 py-1 rounded-md border border-slate-700 text-sm bg-slate-800 text-slate-100 hover:bg-slate-700';
+          editBtn.textContent = 'Edit';
+          editBtn.addEventListener('click', () => openEdit(p));
+          actionsTd.appendChild(editBtn);
+
+          tr.appendChild(actionsTd);
+          phonesBody.appendChild(tr);
+        });
+      }
+
+  
+      function updateSummaries(list) {
+        totalCountEl.textContent = list.length;
+        const brands = new Set(list.map(p => (p.brand || '').trim()).filter(Boolean));
+        brandCountEl.textContent = brands.size;
+
+        const prices = list.map(p => Number(p.price) || 0).filter(v => v > 0);
+        const avg = prices.length ? Math.round(prices.reduce((a,b)=>a+b,0)/prices.length) : 0;
+        avgPriceEl.textContent = `Rs${avg.toLocaleString()}`;
+      }
+
+      
+      searchInput.addEventListener('input', () => {
+        const q = searchInput.value.trim().toLowerCase();
+        if (!q) {
+          renderList(phones);
+          updateSummaries(phones);
+          return;
+        }
+        const filtered = phones.filter(p => {
+          return (p.brand || '').toLowerCase().includes(q)
+            || (p.model || '').toLowerCase().includes(q)
+            || String(p.price || '').toLowerCase().includes(q)
+            || String(p.phoneid).includes(q);
+        });
+        renderList(filtered);
+        updateSummaries(filtered);
+      });
+
+      cancelBtn.addEventListener('click', () => {
+        closeForm();
+      });
+
+      function openEdit(p) {
+        currentEditingPhone = p;
+        formSection.classList.remove('hidden');
+        document.getElementById('phoneid').value = String(p.phoneid || '');
+        document.getElementById('brand').value = p.brand || '';
+        document.getElementById('model').value = p.model || '';
+        document.getElementById('price').value = Number(p.price) || 0;
+        formTitle.textContent = 'Edit Phone';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function closeForm() {
+        formSection.classList.add('hidden');
+        phoneForm.reset();
+        currentEditingPhone = null;
+      }
+
+      
+      phoneForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+      
+        const payload = {
+          ...currentEditingPhone,
+          phoneid: currentEditingPhone.phoneid, 
+          brand: document.getElementById('brand').value.trim(),
+          model: document.getElementById('model').value.trim(),
+          price: Number(document.getElementById('price').value)
         };
 
-        function getSearch() {
-            const searchTerm = document.querySelector("#search").value.toLowerCase().trim();
-            if (searchTerm.length > 0) {
-                const filtered = phones.filter(phone => 
-                    phone.model.toLowerCase().includes(searchTerm) ||
-                    phone.brand.toLowerCase().includes(searchTerm)
-                );
-                renderTable(filtered);
-            } else {
-                renderTable(phones);
-            }
+        try {
+          const res = await fetch('/api/phones/update', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (res.ok) {
+            await loadPhones();
+            closeForm();
+          } else {
+            const err = await res.json().catch(()=>({message:'Unknown error'}));
+            alert('Update failed: ' + (err.message || JSON.stringify(err)));
+          }
+        } catch (err) {
+          console.error('Update error', err);
+          alert('Update failed, check console.');
         }
+      });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            document.querySelector("#search").addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    getSearch();
-                }
-            });
-        });
+      
+      function escapeHtml(s) {
+        if (!s) return '';
+        return String(s).replace(/[&<>"']/g, function(m){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]); });
+      }
 
-        function handleDelete(phoneId) {
-            if (confirm('🗑️ Are you sure you want to delete this phone?')) {
-                phones = phones.filter(p => p.phoneid !== phoneId);
-                const currentEditId = document.querySelector("#phoneid")?.value;
-                if (currentEditId && parseInt(currentEditId) === phoneId) {
-                    document.querySelector("#edit").classList.add("hidden");
-                }
-                renderTable(phones);
-            }
-        }
-
-        function handleSave() {
-            const updated_phone = {
-                phoneid: parseInt(document.querySelector("#phoneid").value),
-                brand: document.querySelector("#brand").value,
-                model: document.querySelector("#model").value,
-                storage: document.querySelector("#storage").value,
-                price: parseFloat(document.querySelector("#price").value),
-                status: document.querySelector("#status").value
-            };
-            
-            const index = phones.findIndex(p => p.phoneid === updated_phone.phoneid);
-            if (index !== -1) {
-                phones[index] = updated_phone;
-            }
-            
-            document.querySelector("#edit").classList.add("hidden");
-            renderTable(phones);
-        }
-
-        function handleClick(phoneId) {
-            const phone = phones.find(p => p.phoneid === phoneId);
-            if (!phone) return;
-            
-            document.querySelector("#edit").classList.remove("hidden");
-            document.querySelector("#edit-content").innerHTML = `
-            <div class="space-y-5">
-                <div class="flex items-center bg-slate-700 p-4 rounded-2xl shadow-lg border-2 border-blue-500/30">
-                    <label class="w-24 font-black text-blue-300 text-lg">🆔 ID</label>
-                    <div class="text-blue-400 font-black text-xl">#${phone.phoneid}</div>
-                    <input type="hidden" id="phoneid" value="${phone.phoneid}"/>
-                </div>
-                <div class="space-y-2">
-                    <label class="font-bold text-gray-300 text-sm">📱 Brand</label>
-                    <input type="text" id="brand" value="${phone.brand}" class="w-full px-5 py-3 border-2 border-blue-500/50 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-500 bg-slate-700 text-white shadow-lg font-semibold"/>
-                </div>
-                <div class="space-y-2">
-                    <label class="font-bold text-gray-300 text-sm">📲 Model</label>
-                    <input type="text" id="model" value="${phone.model}" class="w-full px-5 py-3 border-2 border-blue-500/50 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-500 bg-slate-700 text-white shadow-lg font-semibold"/>
-                </div>
-                <div class="space-y-2">
-                    <label class="font-bold text-gray-300 text-sm">💾 Storage</label>
-                    <input type="text" id="storage" value="${phone.storage}" class="w-full px-5 py-3 border-2 border-blue-500/50 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-500 bg-slate-700 text-white shadow-lg font-semibold"/>
-                </div>
-                <div class="space-y-2">
-                    <label class="font-bold text-gray-300 text-sm">💰 Price</label>
-                    <input type="number" id="price" value="${phone.price}" step="0.01" class="w-full px-5 py-3 border-2 border-blue-500/50 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-500 bg-slate-700 text-white shadow-lg font-semibold"/>
-                </div>
-                <div class="space-y-2">
-                    <label class="font-bold text-gray-300 text-sm">📊 Status</label>
-                    <select id="status" class="w-full px-5 py-3 border-2 border-blue-500/50 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-500 bg-slate-700 text-white shadow-lg font-bold">
-                        <option value="Available" ${phone.status === 'Available' ? 'selected' : ''}>✅ Available</option>
-                        <option value="Sold" ${phone.status === 'Sold' ? 'selected' : ''}>🔴 Sold</option>
-                        <option value="Restocking" ${phone.status === 'Restocking' ? 'selected' : ''}>📦 Restocking</option>
-                        <option value="Repairing" ${phone.status === 'Repairing' ? 'selected' : ''}>🔧 Repairing</option>
-                    </select>
-                </div>
-                <div class="pt-4 flex gap-3">
-                    <button type="button" onclick="handleSave()" class="flex-1 px-6 py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-2xl hover:from-green-700 hover:to-emerald-700 transition-all duration-300 font-black shadow-2xl transform hover:scale-105 text-lg">💾 Save</button>
-                    <button type="button" onclick="document.querySelector('#edit').classList.add('hidden')" class="px-6 py-4 bg-gradient-to-r from-slate-600 to-slate-700 text-white rounded-2xl hover:from-slate-700 hover:to-slate-800 transition-all duration-300 font-black shadow-2xl transform hover:scale-105 text-lg">❌</button>
-                </div>
-            </div>`;
-        }
-
-        function renderTable(phonesList) {
-            const grid = document.querySelector("#main-grid");
-            if (!phonesList || phonesList.length === 0) {
-                grid.innerHTML = '<div class="col-span-full text-center text-white bg-slate-800/50 backdrop-blur-xl rounded-3xl py-16 border-2 border-slate-600 shadow-2xl"><span class="text-6xl block mb-4">📭</span><p class="text-2xl font-bold">No phones found</p></div>';
-                return;
-            }
-            
-            let html = '';
-            phonesList.forEach(phone => {
-                const statusColor = STATUS_COLORS[phone.status] || 'bg-gradient-to-r from-gray-600 to-gray-700 text-white shadow-xl';
-                
-                html += `
-                <div class="bg-gradient-to-br from-slate-800 to-gray-800 rounded-3xl shadow-2xl overflow-hidden hover:shadow-blue-500/50 hover:scale-105 transition-all duration-500 border-2 border-slate-700 hover:border-blue-500">
-                    <div class="bg-gradient-to-r from-blue-700 to-indigo-700 p-4 text-center relative overflow-hidden">
-                        <span class="text-4xl relative z-10">📱</span>
-                    </div>
-                    <div class="p-6">
-                        <div class="space-y-4 mb-4">
-                            <div class="flex justify-between items-center pb-3 border-b-2 border-slate-600">
-                                <span class="text-gray-400 text-sm font-bold">🆔 ID:</span>
-                                <span class="font-black text-blue-400 bg-slate-700 px-4 py-2 rounded-full text-lg shadow-lg">#${phone.phoneid}</span>
-                            </div>
-                            <div class="flex justify-between items-center bg-slate-700/50 p-3 rounded-2xl">
-                                <span class="text-gray-400 text-sm font-bold">📱 Brand:</span>
-                                <span class="font-black text-gray-200 text-lg">${phone.brand}</span>
-                            </div>
-                            <div class="flex justify-between items-center bg-slate-700/50 p-3 rounded-2xl">
-                                <span class="text-gray-400 text-sm font-bold">📲 Model:</span>
-                                <a href="#!" onclick="handleClick(${phone.phoneid})" class="text-blue-400 hover:text-blue-300 font-black hover:underline transition-colors duration-200 text-lg">${phone.model}</a>
-                            </div>
-                            <div class="flex justify-between items-center bg-slate-700/50 p-3 rounded-2xl">
-                                <span class="text-gray-400 text-sm font-bold">💾 Storage:</span>
-                                <span class="font-black text-gray-200 bg-slate-600 px-4 py-1 rounded-full shadow-md">${phone.storage}</span>
-                            </div>
-                            <div class="flex justify-between items-center bg-slate-700/50 p-3 rounded-2xl">
-                                <span class="text-gray-400 text-sm font-bold">💰 Price:</span>
-                                <span class="font-black text-green-400 text-2xl drop-shadow-lg">$${typeof phone.price === 'number' ? phone.price.toFixed(2) : phone.price}</span>
-                            </div>
-                            <div class="flex justify-center py-2">
-                                <span class="px-6 py-3 rounded-2xl text-sm font-black ${statusColor} transform hover:scale-110 transition-all duration-300">${phone.status}</span>
-                            </div>
-                        </div>
-                        <div class="flex gap-3 pt-4 border-t-2 border-slate-600">
-                            <button onclick="handleClick(${phone.phoneid})" class="flex-1 px-5 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 text-sm font-black shadow-2xl transform hover:scale-105">✏️ Edit</button>
-                            <button onclick="handleDelete(${phone.phoneid})" class="flex-1 px-5 py-3 bg-gradient-to-r from-red-600 to-rose-600 text-white rounded-2xl hover:from-red-700 hover:to-rose-700 transition-all duration-300 text-sm font-black shadow-2xl transform hover:scale-105">🗑️ Delete</button>
-                        </div>
-                    </div>
-                </div>`;
-            });
-            grid.innerHTML = html;
-        }
-        
-        renderTable(phones);
-    </script>
+      function brandColor(brand) {
+        const palette = ['#0ea5e9','#10b981','#f97316','#f472b6','#f59e0b','#8b5cf6','#fb7185','#60a5fa','#fca5a5','#86efac'];
+        if (!brand) return '#475569';
+        let hash = 0;
+        for (let i = 0; i < brand.length; i++) hash = brand.charCodeAt(i) + ((hash << 5) - hash);
+        const idx = Math.abs(hash) % palette.length;
+        return palette[idx];
+      }
+      loadPhones();
+    })();
+  </script>
 </body>
 </html>

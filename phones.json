@@ -1,0 +1,128 @@
+[
+  {
+    "phoneid": "1",
+    "brand": "Apple",
+    "model": "iPhone 15 Pro",
+    "price": "400"
+  },
+  {
+    "phoneid": 2,
+    "status": "Sold",
+    "brand": "Samsung",
+    "model": "Galaxy S24 Ultra",
+    "storage": "512GB",
+    "price": 1299
+  },
+  {
+    "phoneid": 3,
+    "status": "Available",
+    "brand": "Google",
+    "model": "Pixel 8 Pro",
+    "storage": "128GB",
+    "price": 999
+  },
+  {
+    "phoneid": 4,
+    "status": "Available",
+    "brand": "OnePlus",
+    "model": "OnePlus 12",
+    "storage": "256GB",
+    "price": 799
+  },
+  {
+    "phoneid": 5,
+    "status": "Repairing",
+    "brand": "Apple",
+    "model": "iPhone 14",
+    "storage": "128GB",
+    "price": 699
+  },
+  {
+    "phoneid": 6,
+    "status": "Available",
+    "brand": "Samsung",
+    "model": "Galaxy Z Flip 5",
+    "storage": "256GB",
+    "price": 999
+  },
+  {
+    "phoneid": 7,
+    "brand": "Xiaomi",
+    "model": "Xiaomi 13 Pro",
+    "storage": "512GB",
+    "price": 1099.0,
+    "status": "Available"
+  },
+  {
+    "phoneid": 8,
+    "status": "Sold",
+    "brand": "Apple",
+    "model": "iPhone 13 Mini",
+    "storage": "128GB",
+    "price": 599
+  },
+  {
+    "phoneid": 9,
+    "status": "Available",
+    "brand": "Sony",
+    "model": "Xperia 1 V",
+    "storage": "256GB",
+    "price": 1199
+  },
+  {
+    "phoneid": 10,
+    "status": "Available",
+    "brand": "Google",
+    "model": "Pixel 7a",
+    "storage": "128GB",
+    "price": 499
+  },
+  {
+    "phoneid": 11,
+    "status": "Restocking",
+    "brand": "Samsung",
+    "model": "Galaxy A54",
+    "storage": "128GB",
+    "price": 449
+  },
+  {
+    "phoneid": 12,
+    "brand": "Nothing",
+    "model": "Nothing Phone 2",
+    "storage": "256GB",
+    "price": 699.0,
+    "status": "Available"
+  },
+  {
+    "phoneid": 13,
+    "status": "Available",
+    "brand": "Asus",
+    "model": "ROG Phone 8",
+    "storage": "512GB",
+    "price": 1099
+  },
+  {
+    "phoneid": 14,
+    "status": "Sold",
+    "brand": "Apple",
+    "model": "iPhone SE (3rd Gen)",
+    "storage": "64GB",
+    "price": 429
+  },
+  {
+    "phoneid": 15,
+    "brand": "Motorola",
+    "model": "Motorola Razr Plus",
+    "storage": "256GB",
+    "price": 999.0,
+    "status": "Available"
+  },
+  {
+    "brand": "Apple",
+    "model": "Nothing Phone 2",
+    "phoneid": 16,
+    "price": 1200,
+    "status": "Available",
+    "storage": "512GB"
+  }
+]
