@@ -1,27 +1,23 @@
 from flask import Flask, render_template, request, jsonify
 import json
+import os
 
 app = Flask(__name__)
 
-phones = []
+JSON_FILE = 'phones.json'
 
 def loadphones():
-            global phones
-            with open('phones.json', 'r') as f:
+            with open(JSON_FILE, 'r') as f:
                 data = json.load(f)
                 return data
 
-loadphones()
 
+def savephones(phones):
+        with open(JSON_FILE, 'w') as f:
+            json.dump(phones, f, indent=2, ensure_ascii=False)
 @app.route('/')
 def index():
     return render_template('index.html')
-
-def savephones(phones):
-        with open('phones.json', 'w') as f:
-            json.dump(phones, f, indent=2, ensure_ascii=False)
-
-
 
 @app.route('/api/phones', methods=['GET'])
 def get_phones():
@@ -44,4 +40,4 @@ def update_phone():
     return jsonify({'success': True, 'phone': updated_data}), 200
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5500)
