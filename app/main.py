@@ -4,16 +4,16 @@ import os
 
 app = Flask(__name__)
 
-JSON_FILE = 'phones.json'
+phones =[]
 
 def loadphones():
-            with open(JSON_FILE, 'r') as f:
+            with open('phones.json', 'r') as f:
                 data = json.load(f)
                 return data
 
 
 def savephones(phones):
-        with open(JSON_FILE, 'w') as f:
+        with open('phones.json', 'w') as f:
             json.dump(phones, f, indent=2, ensure_ascii=False)
 @app.route('/')
 def index():
